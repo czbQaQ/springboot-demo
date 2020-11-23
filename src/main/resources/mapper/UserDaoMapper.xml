@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.asura.demo.dao.UserDao">
+    <!-- 根据主键查询-->
+    <select id="selectUserByUsername" resultType="com.asura.demo.entity.User" parameterType="java.lang.String" >
+        select  *
+        from user
+        where userName = #{userName}
+    </select>
+
+    <select id="userIsExix" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(*)
+        from user
+        where userName=#{userName}
+    </select>
+
+    <insert id="insertUser" parameterType="com.asura.demo.entity.User">
+        insert into user(userName,pass,email)
+        values(#{userName},#{pass},#{email})
+    </insert>
+</mapper>
