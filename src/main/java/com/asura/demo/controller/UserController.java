@@ -5,8 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.asura.demo.entity.User;
 import com.asura.demo.entity.ResultEntity;
 import com.asura.demo.service.UserService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,11 +21,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/regist")
+    @PostMapping("/regist")
     public String regist(@RequestBody User user){
         ResultEntity resultEntity=new ResultEntity();
         try {
-            if(user!=null) {
+            if(StringUtils.isNotBlank(user.getUserName())&&StringUtils.isNotBlank(user.getPass())) {
                 if (userService.userIsExix(user.getUserName())) {
                     resultEntity.setStatus(-1);
                     resultEntity.setMsg("用户名已存在");
@@ -67,5 +68,12 @@ public class UserController {
             resultEntity.setMsg("登录失败");
         }
         return JSON.toJSONString(resultEntity);
+    }
+
+    public static void main(String[] args) {
+        User user=new User();
+        user.setUserName("admin");
+        user.setPass("123");
+        System.out.println(JSON.toJSON(user));
     }
 }
